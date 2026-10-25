@@ -1,0 +1,13 @@
+{
+  "name": "proxe-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@mercuryworkshop/bare-mux": "^2.1.8",
+    "wisp-server-node": "^1.1.7",
+    "express": "^5.2.1"
+  }
+}
