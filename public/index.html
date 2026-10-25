@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>proxe's proxy</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Comic Sans MS", "Comic Sans", cursive; }
+        body { background: #0c0b13; color: #dfdded; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; position: relative; }
+        .grid { position: absolute; width: 100%; height: 100%; background-image: linear-gradient(rgba(147, 51, 234, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(147, 51, 234, 0.04) 1px, transparent 1px); background-size: 40px 40px; z-index: 1; }
+        .main-panel { text-align: center; max-width: 650px; width: 90%; z-index: 2; background: rgba(20, 18, 31, 0.85); border: 2px solid #9333ea; padding: 45px 30px; border-radius: 20px; box-shadow: 0 0 35px rgba(147, 51, 234, 0.25); animation: float 5s ease-in-out infinite alternate; }
+        @keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
+        h1 { font-size: 3.2rem; font-weight: 800; color: #a855f7; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 0 15px rgba(147,51,234,0.5); }
+        .sub { font-size: 1.1rem; color: #9ca3af; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1px; }
+        input { width: 100%; padding: 18px 25px; border: 2px solid #4c1d95; background: #0f0e17; color: #fff; border-radius: 12px; font-size: 1.1rem; outline: none; transition: 0.3s; margin-bottom: 25px; }
+        input:focus { border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.3); }
+        .btn { width: 100%; padding: 16px; background: #9333ea; color: #fff; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 15px rgba(147,51,234,0.3); }
+        .btn:hover { background: #a855f7; }
+    </style>
+</head>
+<body>
+    <div class="grid"></div>
+    <div class="main-panel">
+        <h1>proxe's proxy</h1>
+        <div class="sub">Unblocked Web Gateway</div>
+        <input type="text" id="urlInput" placeholder="">
+        <button class="btn" onclick="launch()">Launch Stealth Mode</button>
+    </div>
+    <script>
+        const simulationTargets = ["https://wikipedia.org", "https://duckduckgo.com", "https://crazygames.com"];
+        let sIdx = 0, cIdx = 0, isDeleting = false;
+        const inputEl = document.getElementById('urlInput');
+
+        function runTypingLoop() {
+            const fullText = simulationTargets[sIdx];
+            inputEl.placeholder = isDeleting ? fullText.substring(0, cIdx - 1) : fullText.substring(0, cIdx + 1);
+            cIdx = isDeleting ? cIdx - 1 : cIdx + 1;
+            let speed = isDeleting ? 40 : 100;
+            if (!isDeleting && cIdx === fullText.length) { speed = 2000; isDeleting = true; }
+            else if (isDeleting && cIdx === 0) { isDeleting = false; sIdx = (sIdx + 1) % simulationTargets.length; speed = 400; }
+            setTimeout(runTypingLoop, speed);
+        }
+        window.addEventListener('DOMContentLoaded', () => setTimeout(runTypingLoop, 600));
+
+        function launch() {
+            let target = inputEl.value || inputEl.placeholder;
+            if (target) {
+                window.location.href = window.location.origin + "/stream?url=" + encodeURIComponent(target);
+            }
+        }
+        inputEl.addEventListener('keyup', (e) => { if (e.key === 'Enter') launch(); });
+    </script>
+</body>
+</html>
